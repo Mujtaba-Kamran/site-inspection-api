@@ -1,0 +1,20 @@
+[project]
+name = "site-inspection-api"
+version = "0.1.0"
+description = "Site visit / plot inspection tracker API"
+readme = "README.md"
+authors = [
+    { name = "Mujtaba Kamran", email = "147094576+Mujtaba-Kamran@users.noreply.github.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.141.1",
+    "uvicorn>=0.52.4",
+]
+
+[project.scripts]
+site-inspection-api = "site_inspection_api:main"
+
+[build-system]
+requires = ["uv_build>=0.12.7,<0.13.0"]
+build-backend = "uv_build"

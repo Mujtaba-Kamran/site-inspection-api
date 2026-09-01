@@ -35,3 +35,20 @@ def get_inspection(id: int):
         if inspection["id"] == id:
             return inspection
     return JSONResponse(status_code=404, content={"error": f"Inspection {id} not found"})
+
+
+@app.post("/inspections", status_code=201)
+def create_inspection(body: dict):
+    if not body.get("plot_id"):
+        return JSONResponse(status_code=400, content={"error": "plot_id is required"})
+    if not body.get("issue"):
+        return JSONResponse(status_code=400, content={"error": "issue is required and cannot be empty"})
+
+    inspection = {
+        "id": inspections[-1]["id"] + 1,
+        "plot_id": body["plot_id"],
+        "issue": body["issue"],
+        "resolved": False,
+    }
+    inspections.append(inspection)
+    return inspection

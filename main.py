@@ -15,7 +15,7 @@ def root():
     return {
         "name": "Site Inspection API",
         "version": "1.0",
-        "endpoints": ["/inspections"],
+        "endpoints": ["/inspections", "/stats"],
     }
 
 
@@ -25,8 +25,10 @@ def health():
 
 
 @app.get("/inspections", summary="List all inspections")
-def list_inspections():
-    return inspections
+def list_inspections(resolved: bool | None = None):
+    if resolved is None:
+        return inspections
+    return [i for i in inspections if i["resolved"] == resolved]
 
 
 @app.get("/inspections/{id}", summary="Get a single inspection by id")
@@ -86,3 +88,9 @@ def delete_inspection(id: int):
             inspections.remove(inspection)
             return Response(status_code=204)
     return JSONResponse(status_code=404, content={"error": f"Inspection {id} not found"})
+
+
+@app.get("/stats", summary="Inspection counts by status")
+def stats():
+    resolved = sum(1 for i in inspections if i["resolved"])
+    return {"total": len(inspections), "resolved": resolved, "open": len(inspections) - resolved}

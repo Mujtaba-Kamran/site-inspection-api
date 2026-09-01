@@ -19,11 +19,12 @@ http://localhost:8000/docs.
 |--------|------|-------------|
 | GET | `/` | API name, version and endpoint list |
 | GET | `/health` | Health check — `{"status": "ok"}` |
-| GET | `/inspections` | List all inspections |
+| GET | `/inspections` | List all inspections; optional `?resolved=true/false` filter |
 | GET | `/inspections/{id}` | One inspection; 404 if the id doesn't exist |
 | POST | `/inspections` | Create an inspection (needs `plot_id` and `issue`); returns 201 |
 | PUT | `/inspections/{id}` | Update `plot_id`, `issue` and/or `resolved` |
 | DELETE | `/inspections/{id}` | Delete an inspection; 204 with empty body |
+| GET | `/stats` | Counts — `{"total": n, "resolved": n, "open": n}` |
 
 Server-assigned fields (`id`, `resolved` on create) are never taken from the
 client. Invalid input gets a 400 with `{"error": "..."}`.

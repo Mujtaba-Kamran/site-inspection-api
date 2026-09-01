@@ -10,7 +10,7 @@ inspections = [
 ]
 
 
-@app.get("/")
+@app.get("/", summary="API info")
 def root():
     return {
         "name": "Site Inspection API",
@@ -19,17 +19,17 @@ def root():
     }
 
 
-@app.get("/health")
+@app.get("/health", summary="Health check")
 def health():
     return {"status": "ok"}
 
 
-@app.get("/inspections")
+@app.get("/inspections", summary="List all inspections")
 def list_inspections():
     return inspections
 
 
-@app.get("/inspections/{id}")
+@app.get("/inspections/{id}", summary="Get a single inspection by id")
 def get_inspection(id: int):
     for inspection in inspections:
         if inspection["id"] == id:
@@ -37,7 +37,7 @@ def get_inspection(id: int):
     return JSONResponse(status_code=404, content={"error": f"Inspection {id} not found"})
 
 
-@app.post("/inspections", status_code=201)
+@app.post("/inspections", status_code=201, summary="Create a new inspection")
 def create_inspection(body: dict):
     if not body.get("plot_id"):
         return JSONResponse(status_code=400, content={"error": "plot_id is required"})
@@ -56,7 +56,7 @@ def create_inspection(body: dict):
     return inspection
 
 
-@app.put("/inspections/{id}")
+@app.put("/inspections/{id}", summary="Update an inspection")
 def update_inspection(id: int, body: dict):
     for inspection in inspections:
         if inspection["id"] == id:
@@ -79,7 +79,7 @@ def update_inspection(id: int, body: dict):
     return JSONResponse(status_code=404, content={"error": f"Inspection {id} not found"})
 
 
-@app.delete("/inspections/{id}")
+@app.delete("/inspections/{id}", summary="Delete an inspection")
 def delete_inspection(id: int):
     for inspection in inspections:
         if inspection["id"] == id:

@@ -5,4 +5,13 @@ app = FastAPI()
 
 @app.get("/")
 def root():
-    return {"message": "Site inspection API"}
+    return {
+        "name": "Site Inspection API",
+        "version": "1.0",
+        "endpoints": ["/inspections"],
+    }
+
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
